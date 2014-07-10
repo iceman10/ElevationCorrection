@@ -87,7 +87,7 @@ public class ElevationCorrection {
     public static void main(String[] args) throws Exception {
         // TODO Auto-generated method stub
 
-        String filename = "6.6.14ModifiedFullPoints.csv";
+        String filename = "6.6.14HeadersFullPoints.csv";
         
         BufferedReader CSVFile = new BufferedReader(new FileReader(filename));
 
@@ -97,6 +97,9 @@ public class ElevationCorrection {
         // process the data.
 
         int i = 0;
+        int k =0; 
+        int row = 0;
+        String[] headers = new String[7]; 
         
         ArrayList<String> arrLat = new ArrayList<String>();
         ArrayList<String> arrLong = new ArrayList<String>();
@@ -106,7 +109,20 @@ public class ElevationCorrection {
                 i = 0;
             }
             String[] dataArray = dataRow.split(",");
-            for (String item : dataArray) {
+            if (row == 0){
+                for (String item : dataArray) {
+                    headers[i] = item; 
+                    i++;
+                    if (i == 7){
+                        i=0;
+                        row++;
+                        dataRow = CSVFile.readLine();
+                        break; 
+                    }
+                }
+            }
+            else if (row > 1) {
+                for (String item : dataArray) {
                 if (item.equals("")) {
                     item = "NA";
                 }
@@ -118,7 +134,22 @@ public class ElevationCorrection {
                     arrLong.add(item);
                 }
                 i++;
+                }
             }
+            for (String item : dataArray) {
+                if (item.equals("")) {
+                    item = "NA";
+                }
+                //System.out.print(item + "\t");
+
+                if (k == 0) {
+                    arrLat.add(item);
+                } else if (k == 1) {
+                    arrLong.add(item);
+                }
+                k++;
+            }
+            row++;
             //System.out.println(); // Print the data line.
             dataRow = CSVFile.readLine(); // Read next line of data.
         }
@@ -138,26 +169,29 @@ public class ElevationCorrection {
         //URL Request 
         
         String url = constructURL(arrLat, arrLong, 0); 
-
         System.out.println(url);
-        System.out.println("The length of the url is: " +url.length());
 
         FileWriter saveFile = new FileWriter("TestSave.txt");
+        saveFile.write(url);
+        
+        System.out.println("The length of the url is: " +url.length());
+
+        //System.out.println(headers[6]);
+
+        
         
         /*
         
-        for (int k=0; k <= movAvg_5_Spd.size()-1; k++){
-            saveFile.write(String.valueOf(k)+"," +String.valueOf(movAvg_5_Spd.get(k)));
-            saveFile.write("\n");
+        for (int j=1; j <= arrLat.size()-1; j++){
+            saveFile.write(String.valueOf(j)+"," +String.valueOf(arrLat.get(j)));
+            saveFile.write(String.format("%n"));
         }
 
         */
 
-        saveFile.write(url);
         
         saveFile.flush();
         saveFile.close();
-
 
 
         

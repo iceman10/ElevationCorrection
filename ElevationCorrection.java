@@ -97,7 +97,7 @@ public class ElevationCorrection {
         // process the data.
 
         int i = 0;
-        int k =0; 
+        //int k =0; 
         int row = 0;
         String[] headers = new String[7]; 
         
@@ -136,19 +136,7 @@ public class ElevationCorrection {
                 i++;
                 }
             }
-            for (String item : dataArray) {
-                if (item.equals("")) {
-                    item = "NA";
-                }
-                //System.out.print(item + "\t");
-
-                if (k == 0) {
-                    arrLat.add(item);
-                } else if (k == 1) {
-                    arrLong.add(item);
-                }
-                k++;
-            }
+            
             row++;
             //System.out.println(); // Print the data line.
             dataRow = CSVFile.readLine(); // Read next line of data.
@@ -169,7 +157,7 @@ public class ElevationCorrection {
         //URL Request 
         
         String url = constructURL(arrLat, arrLong, 0); 
-        System.out.println(url);
+        //System.out.println(url);
 
         FileWriter saveFile = new FileWriter("TestSave.txt");
         saveFile.write(url);

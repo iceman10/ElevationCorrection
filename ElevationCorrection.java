@@ -70,10 +70,13 @@ public class ElevationCorrection {
 
         String API_KEY = "AIzaSyD7EDp31VN01zkyMOSLrvkb5ehfobXOTxI"; 
         String lnglat = ""; 
-        int maxCoords = 90; //number of coords in string
+        int maxCoords = index+90; //number of coords in string
 
         for (int i = index; i < maxCoords; i++){
             lnglat = lnglat+lat.get(i)+","+lng.get(i)+"|";
+            if (i == lat.size()-1){
+                break; 
+            }
         }
 
         lnglat = lnglat.substring(0,lnglat.length()-1); //removes last |
@@ -156,7 +159,7 @@ public class ElevationCorrection {
         
         //URL Request 
         
-        String url = constructURL(arrLat, arrLong, 0); 
+        String url = constructURL(arrLat, arrLong, 3050); 
         //System.out.println(url);
 
         FileWriter saveFile = new FileWriter("TestSave.txt");

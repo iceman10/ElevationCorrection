@@ -5,7 +5,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 
-//import org.json.JSONObject;
+import org.json.JSONObject;
 
 
 
@@ -87,6 +87,21 @@ public class ElevationCorrection {
 
     }
 
+    public static void correctElevation(String url, String params, int numcoords){
+        //Parse JSON output using org.json 
+        // http://theoryapp.com/parse-json-in-java/        
+
+        String str = excutePost(url , params);
+        JSONObject obj = new JSONObject(str);
+        for (int i = 0; i < numcoords; i++ ){
+            JSONObject res = obj.getJSONArray("results").getJSONObject(i);
+        System.out.println(i+","+res.getDouble("elevation"));
+        }
+        
+
+        
+    }
+
     public static void main(String[] args) throws Exception {
         // TODO Auto-generated method stub
 
@@ -155,11 +170,13 @@ public class ElevationCorrection {
        
         
        
+        
+        
        
         
         //URL Request 
-        
-        String url = constructURL(arrLat, arrLong, 3050); 
+        String urlParameters = "fName=" + URLEncoder.encode("???", "UTF-8") +"&lName=" + URLEncoder.encode("???", "UTF-8");
+        String url = constructURL(arrLat, arrLong, 0); 
         //System.out.println(url);
 
         FileWriter saveFile = new FileWriter("TestSave.txt");
@@ -186,8 +203,7 @@ public class ElevationCorrection {
 
 
         
-        
-        
+        correctElevation(url,urlParameters,90);
                 
         //System.out.println(excutePost(url , urlParameters));
         

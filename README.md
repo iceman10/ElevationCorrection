@@ -1,5 +1,7 @@
 Java project that reads lat and lng from a .csv and returns corrected elevation using Google Elevation API. 
 
+7.31.14 Note: Compile and run with javac/java -classpath .;lib\json-20140107.jar ElevationCorrection
+
 Google Elevation API Limits:
 
 Users of the free API:
